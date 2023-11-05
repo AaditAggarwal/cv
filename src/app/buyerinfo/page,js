@@ -1,0 +1,78 @@
+"use client";
+import { useState , useEffect} from "react";
+import Link from 'next/link';
+
+export default function BuyerForm() {
+    const [formPos,setFormPos] = useState(0)
+    const [formData, setFormData] = useState({
+        grossMonthlyIncome: 0,
+        homeValue: 0,
+        mortgage: 0,
+        monthlyDebt: 0,
+        creditScore: 0,
+        downPayment:0
+        // Add more form fields here
+    });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Handle form submission here
+    // You can access the form data, including 'monthlyCarPayment', here
+  }
+  const nextForm = () => {
+    if(formPos == formFields.length -1) {
+      
+    }
+    if (formPos < formFields.length - 1 ) {
+      setFormPos(formPos + 1);
+    }
+  };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    const formNew = { ...formData };
+    formNew[name] = value;
+    setFormData(formNew);
+  };
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+  const formFields = [
+    { name: 'front', label: '@App Name' ,  desc: 'Let\'s Buy You Your New Home'},
+    { name: 'grossMonthlyIncome', label: 'Gross Monthly Income' ,desc:'How much is your monthly income' },
+    { name: 'homeValue', label: 'Appraised Home Value' ,desc:'What\'s an estimate on the house value?' },
+    { name: 'mortgage', label: 'Mortage' ,desc:'How much would the monthly mortage be?' },
+    { name: 'monthlyDebt', label: 'Other Monthly Costs' ,desc:'How much monthly payments are you making other than your mortage?' },
+    { name: 'creditScore', label: 'Credit Score' ,desc:'What\'s your current credit score?' }, 
+    { name: 'downPayment', label: 'Down Payment' ,desc:'What\'s your down payment?' }, 
+    { name: 'end', label: 'Finalize Your Data' ,  desc: 'Let\'s get started'}
+    // Add more form fields here
+  ];
+
+  return (
+    <div name = {formFields[formPos].name} className="label">
+      <form onSubmit={handleSubmit}>
+      
+        <div key={formFields[formPos].name}>
+          <h1>{formFields[formPos].label}</h1>
+          <p>{formFields[formPos].desc}</p>
+            <div className="home">
+            <Link href={{pathname:"/", query: {
+            data: formData}}
+          }>Home</Link>
+            </div>
+          <label name = {formFields[formPos].name} >
+            
+          <input
+            type="text"
+            name={formFields[formPos].name}
+            onChange={handleInputChange}
+          />
+          </label>
+    
+        </div>
+        
+        <button className = "button" name = {formFields[formPos].name} type="submit" onClick = {nextForm}>Next</button>
+      </form>
+    </div>
+  );
+}
